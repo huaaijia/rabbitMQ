@@ -25,7 +25,7 @@ public class RPCServer {
         Channel channel = null;
         try {
             ConnectionFactory factory = new ConnectionFactory();
-            factory.setHost("localhost");
+            factory.setHost("127.0.0.1");
             connection = factory.newConnection();
             channel = connection.createChannel();
 

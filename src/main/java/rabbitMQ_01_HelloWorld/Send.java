@@ -13,12 +13,14 @@ public class Send {
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost("127.0.0.1");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
+        //(String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments)
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         String message = "Hello World!";
+        //(String exchange, String routingKey, BasicProperties props, byte[] body)
         channel.basicPublish("", QUEUE_NAME, null, message.getBytes("UTF-8"));
         System.out.println(" [x] Sent '" + message + "'");
 

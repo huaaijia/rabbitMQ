@@ -13,7 +13,7 @@ public class Worker {
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost("127.0.0.1");
         final Connection connection = factory.newConnection();
         final Channel channel = connection.createChannel();
 
@@ -21,6 +21,7 @@ public class Worker {
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         //tells RabbitMQ not to give more than one message to a  worker at a time
+        //公平分发
         channel.basicQos(1);
 
         final Consumer consumer = new DefaultConsumer(channel) {
@@ -41,6 +42,7 @@ public class Worker {
                 }
             }
         };
+        //参数2：false autoAck = false，需要手动发送acknowledgement
         channel.basicConsume(TASK_QUEUE_NAME, false, consumer);
     }
 

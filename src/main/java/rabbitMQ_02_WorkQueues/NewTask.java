@@ -15,20 +15,22 @@ public class NewTask {
     public static void main(String[] argv) throws Exception {
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost("127.0.0.1");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
         //1要求队列是持久化的
+        //(String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments)
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
 
         for(int i=0; i<5; i++){
             String message = "The "+(i+1)+" message"+getMessage2();
 
             //2要求队列中的数据是持久化的
+            //(String exchange, String routingKey, BasicProperties props, byte[] body)
             channel.basicPublish("",
                                  TASK_QUEUE_NAME,
-                                 MessageProperties.PERSISTENT_TEXT_PLAIN,
+                                 MessageProperties.PERSISTENT_TEXT_PLAIN,//队列和消息都要设为持久化的，这里是消息内容持久化
                                  message.getBytes("UTF-8"));
             System.out.println(" [x] Sent '" + message + "'");
         }
