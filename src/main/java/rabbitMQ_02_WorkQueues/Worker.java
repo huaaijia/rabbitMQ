@@ -17,6 +17,11 @@ public class Worker {
         final Connection connection = factory.newConnection();
         final Channel channel = connection.createChannel();
 
+        //-----queueDeclare(String queue,
+        //                  boolean durable,
+        //                  boolean exclusive,
+        //                  boolean autoDelete,
+        //                  Map<String, Object> arguments)
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
@@ -33,7 +38,7 @@ public class Worker {
                 try {
                     doWork(message);
                 } finally {
-                    //Using this code we can be sure that even if
+                    // Using this code we can be sure that even if
                     // you kill a worker using CTRL+C while it was processing a message,
                     // nothing will be lost. Soon after the worker dies all
                     // unacknowledged messages will be redelivered.
@@ -42,8 +47,9 @@ public class Worker {
                 }
             }
         };
+        boolean autoAck = false;
         //参数2：false autoAck = false，需要手动发送acknowledgement
-        channel.basicConsume(TASK_QUEUE_NAME, false, consumer);
+        channel.basicConsume(TASK_QUEUE_NAME, autoAck, consumer);
     }
 
     private static void doWork(String task) {
