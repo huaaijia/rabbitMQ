@@ -17,10 +17,17 @@ public class Send {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        //(String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments)
+        //-----queueDeclare(String queue,
+        //                  boolean durable,
+        //                  boolean exclusive,
+        //                  boolean autoDelete,
+        //                  Map<String, Object> arguments)
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         String message = "Hello World!";
-        //(String exchange, String routingKey, BasicProperties props, byte[] body)
+        //------basicPublish(String exchange,
+        //                   String routingKey,
+        //                   BasicProperties props,
+        //                   byte[] body)
         channel.basicPublish("", QUEUE_NAME, null, message.getBytes("UTF-8"));
         System.out.println(" [x] Sent '" + message + "'");
 
