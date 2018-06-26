@@ -27,7 +27,8 @@ public class Worker {
 
         //tells RabbitMQ not to give more than one message to a  worker at a time
         //公平分发
-        channel.basicQos(1);
+        int prefetchCount = 1 ;
+        channel.basicQos(prefetchCount);
 
         final Consumer consumer = new DefaultConsumer(channel) {
             @Override
@@ -48,6 +49,8 @@ public class Worker {
             }
         };
         boolean autoAck = false;
+
+        //channel.basicConsume(TASK_QUEUE_NAME, true, consumer);
         //参数2：false autoAck = false，需要手动发送acknowledgement
         channel.basicConsume(TASK_QUEUE_NAME, autoAck, consumer);
     }
