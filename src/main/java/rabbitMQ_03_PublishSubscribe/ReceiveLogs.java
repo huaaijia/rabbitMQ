@@ -18,6 +18,9 @@ public class ReceiveLogs {
 
         channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
         String queueName = channel.queueDeclare().getQueue();
+        //------queueBind(String queue,
+        //                String exchange,
+        //                String routingKey)
         channel.queueBind(queueName, EXCHANGE_NAME, "");
 
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
@@ -30,6 +33,9 @@ public class ReceiveLogs {
                 System.out.println(" [x] Received '" + message + "'");
             }
         };
+        //------basicConsume(String queue,
+        //                   boolean autoAck,
+        //                   Consumer callback)
         channel.basicConsume(queueName, true, consumer);
     }
 }

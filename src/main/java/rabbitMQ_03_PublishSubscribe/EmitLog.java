@@ -23,6 +23,11 @@ public class EmitLog {
         for(int i=0; i<5; i++){
             String message = "The "+(i+1)+" message"+getMessage2();
 
+            //2要求队列中的数据是持久化的
+            //------basicPublish(String exchange,
+            //                   String routingKey,
+            //                   BasicProperties props,
+            //                   byte[] body)
             channel.basicPublish(EXCHANGE_NAME,
                                  "",
                                  null,
