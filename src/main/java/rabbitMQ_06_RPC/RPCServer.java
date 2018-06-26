@@ -29,6 +29,11 @@ public class RPCServer {
             connection = factory.newConnection();
             channel = connection.createChannel();
 
+            //------queueDeclare(String queue,
+            //                   boolean durable,
+            //                   boolean exclusive,
+            //                   boolean autoDelete,
+            //                   Map<String, Object> arguments)
             channel.queueDeclare(RPC_QUEUE_NAME, false, false, false, null);
 
             channel.basicQos(1);
