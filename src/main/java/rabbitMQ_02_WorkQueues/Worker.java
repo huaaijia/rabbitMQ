@@ -26,7 +26,7 @@ public class Worker {
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         //tells RabbitMQ not to give more than one message to a  worker at a time
-        //公平分发
+        //4：公平分发callback的get()
         int prefetchCount = 1 ;
         channel.basicQos(prefetchCount);
 
@@ -44,14 +44,15 @@ public class Worker {
                     // nothing will be lost. Soon after the worker dies all
                     // unacknowledged messages will be redelivered.
                     System.out.println(" [x] Done");
+                    // 1：手动验证
                     channel.basicAck(envelope.getDeliveryTag(), false);
                 }
             }
         };
         boolean autoAck = false;
 
-        //channel.basicConsume(TASK_QUEUE_NAME, true, consumer);
-        //参数2：false autoAck = false，需要手动发送acknowledgement
+//        channel.basicConsume(TASK_QUEUE_NAME, true, consumer);
+        //1：手动验证参数2：false autoAck = false，需要手动发送acknowledgement
         channel.basicConsume(TASK_QUEUE_NAME, autoAck, consumer);
     }
 

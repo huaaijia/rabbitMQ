@@ -44,7 +44,7 @@ public class ReceiveLogsTopic {
     }
 
     private static String[] setRoutingkeys(){
-        int n = (int) (Math.random() * 2);
+        int n = (int) (Math.random() * 1)+1;
         String[] routingKeys = new String[n];
         for(int i=0; i<n; i++){
             int k = (int) (Math.random() * 3);

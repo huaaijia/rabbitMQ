@@ -26,6 +26,7 @@ public class RPCClient {
         connection = factory.newConnection();
         channel = connection.createChannel();
 
+        //返回数据
         replyQueueName = channel.queueDeclare().getQueue();
         consumer = new QueueingConsumer(channel);
         channel.basicConsume(replyQueueName, true, consumer);

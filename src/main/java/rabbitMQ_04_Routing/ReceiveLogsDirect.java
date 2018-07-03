@@ -6,6 +6,7 @@ package rabbitMQ_04_Routing;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class ReceiveLogsDirect {
 
@@ -28,6 +29,9 @@ public class ReceiveLogsDirect {
         String strSeverities = "";
 
         for(String severity : severities){
+            //------queueBind(String queue,
+            //                String exchange,
+            //                String routingKey)
             channel.queueBind(queueName, EXCHANGE_NAME, severity);
             strSeverities += severity+" ";
         }
@@ -47,10 +51,11 @@ public class ReceiveLogsDirect {
     }
 
     private static String[] setSeverity(){
-        int n = (int) (Math.random() * 3);
+        int n = (int)(Math.random()*3)+1;
+
         String[] severites = new String[n];
         for(int i=0; i<n; i++){
-            int k = (int) (Math.random() * 3);
+            int k = (int)(Math.random()*3);//0,1,2
             severites[i] = al_severity[k];
         }
         return severites;

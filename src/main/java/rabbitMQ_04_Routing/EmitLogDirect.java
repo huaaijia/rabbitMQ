@@ -27,6 +27,11 @@ public class EmitLogDirect {
             String severity = getSeverity2();
             String message = getMessage2();
 
+            //2要求队列中的数据是持久化的
+            //------basicPublish(String exchange,
+            //                   String routingKey,
+            //                   BasicProperties props,
+            //                   byte[] body)
             channel.basicPublish(EXCHANGE_NAME, severity, null, message.getBytes("UTF-8"));
             System.out.println(" [x] Sent '" + severity + "':'" + message + "'");
         }
